@@ -1,0 +1,3 @@
+website = "https://www.drugs.com/"
+output_file = "drug_links.txt"
+interactive = true
