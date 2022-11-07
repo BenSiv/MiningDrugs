@@ -70,11 +70,16 @@ def main():
     soup = get_soup_object(args["website"])
     urls = get_urls(soup)
     
-    # get_classes(soup)
-    # find_element = soup.find_all(class_="homeMain")
-    
-    return urls
+    if args["output_file"] is not None:
+        with open(args["output_file"], "w") as output:
+            output.write('\n'.join(urls))
+        return f"writen all links to {args['output_file']}"
+    else:
+            return urls
 
+        
+# get_classes(soup)
+# find_element = soup.find_all(class_="homeMain")
 
 
 if __name__ == "__main__":
