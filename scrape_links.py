@@ -34,21 +34,12 @@ def load_args():
         print(key, "=>", value)
     return args
 
+
 def get_soup_object(URL):
     page = requests.get(URL)
     soup = BeautifulSoup(page.content , 'html.parser')
     return soup
-    
-def get_classes(soup):
-    class_list = set()
-    tags = {tag.name for tag in soup.find_all()}
-    for tag in tags:
-        for i in soup.find_all(tag):
-            if i.has_attr( "class" ):
-                if len( i['class'] ) != 0:
-                    class_list.add(" ".join(i['class']))
 
-    return class_list
 
 def get_urls(soup):
     urls = [link.get('href') for link in soup.find_all('a')]
@@ -77,9 +68,6 @@ def main():
     else:
             return urls
 
-        
-# get_classes(soup)
-# find_element = soup.find_all(class_="homeMain")
 
 
 if __name__ == "__main__":
