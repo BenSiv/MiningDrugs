@@ -1,12 +1,10 @@
 """
-Scraping all links from a given website
+Filters a file of links based on presence of string
 """
 
 # import modules
 import argparse
 import toml
-import requests
-from bs4 import BeautifulSoup
 
 # argparse function
 def get_args(argv=None):
@@ -14,7 +12,8 @@ def get_args(argv=None):
     Takes arguments from the user when running as a command line script
     """
     parser = argparse.ArgumentParser(description="Scraping all links from a given website")
-    parser.add_argument("-w","--website", help="website to scrape", required=True)
+    parser.add_argument("-f","--input_file", help="file of links", required=True)
+    parser.add_argument("-q","--query", help="substring to search", required=True)
     parser.add_argument("-o","--output_file", help="name of the file to save the output")
     parser.add_argument("-i", "--interactive", action="store_true", help="saves all the arguments to CmdArgs.yaml")
     return vars(parser.parse_args(argv))
@@ -34,32 +33,31 @@ def load_args():
         print(key, "=>", value)
     return args
 
+# def filter_links(file, query, output):
+#     """filters all links in file"""
+#     with open(output, "w") as output_file:
+#         with open(file) as input_file:
+#             for line in input_file.readlines():
+#                 if query in line:
+#                     output_file.write(line)
 
-def get_soup_object(URL):
-    """
-    Send a request to a page and return the response as a BeautifulSoup object
-    """
-    page = requests.get(URL)
-    soup = BeautifulSoup(page.content , 'html.parser')
-    return soup
 
-
-def get_urls(base_url,soup):
-    """Retrives all links from a BeautifulSoup object"""
-    urls = [f"{base_url}{link.get('href')}" for link in soup.find_all('a')]
-    return urls
-
-def find_all(a_str, sub):
-    start = 0
+def lazy_filter(input_file, query):
+    """filters all links in file"""
+    line = "true"
     while True:
-        start = a_str.find(sub, start)
-        if start == -1: return
-        yield start
-        start += len(sub)
+        line = input_file.readline()
+        if not line:
+            break
+        else:
+            if query in line:
+                yield line
 
-def extract_base_url(url):
-    up_to = list(find_all(url, "/"))[2] # third '/' in the url
-    return url[:up_to]
+def filter_links(file, query):
+    with open(file) as f:
+        link_gen = lazy_filter(f, query)
+        return list(link_gen)
+
 
 # tests
 
@@ -73,17 +71,18 @@ def main():
         save_args(args)
     # args = load_args()
 
-    base_url = extract_base_url(args["website"])
-    soup = get_soup_object(args["website"])
-    urls = get_urls(base_url, soup)
+    # filter_links(args["input_file"], args["query"], args["output_file"])
     
+    # links_filtered = filter_links("multum/mtm_links.txt", "mult")
     if args["output_file"] is not None:
         with open(args["output_file"], "w") as output:
-            output.write('\n'.join(urls))
+            for filtered_link in filter_links("multum/mtm_links.txt", "mult"):
+                output.write(filtered_link)
         return f"writen all links to {args['output_file']}"
     else:
-        return urls
+        print(*filter_links("multum/mtm_links.txt", "mult"))
 
+        
 
 if __name__ == "__main__":
     main()
