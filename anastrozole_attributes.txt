@@ -1,0 +1,5 @@
+{
+    "title": "Anastrozole\n\n\n\n",
+    "subtitle": "\nGeneric name: anastrozole [\u00a0an-AS-troe-zole\u00a0]\nBrand name: Arimidex\nDosage form: oral tablet (1 mg)\nDrug classes: Aromatase inhibitors, Hormones / antineoplastics",
+    "related_treatments": "\nBreast Cancer, Metastatic\nEndometrial Cancer\nMcCune-Albright Syndrome\nBreast Cancer\nPubertal Gynecomastia\n"
+}
