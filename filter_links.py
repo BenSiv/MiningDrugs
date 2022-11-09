@@ -4,7 +4,8 @@ Filters a file of links based on presence of string
 
 # import modules
 import argparse
-import toml
+from cmd_args import save_args, load_args
+import re
 
 # argparse function
 def get_args(argv=None):
@@ -16,30 +17,8 @@ def get_args(argv=None):
     parser.add_argument("-q","--query", help="substring to search", required=True)
     parser.add_argument("-o","--output_file", help="name of the file to save the output")
     parser.add_argument("-i", "--interactive", action="store_true", help="saves all the arguments to CmdArgs.yaml")
+    parser.add_argument("-t", "--tests", action="store_true", help="runs tests for this script")
     return vars(parser.parse_args(argv))
-
-
-def save_args(args):
-    """Saves command line arguments to CmdArgs.toml"""
-    with open("CmdArgs.toml", "w") as toml_file:
-        toml.dump(args, toml_file)
-
-
-def load_args():
-    """Loads command line arguments from CmdArgs.toml"""
-    with open("CmdArgs.toml") as toml_file:
-        args = toml.load(toml_file)
-    for key,value in args.items():
-        print(key, "=>", value)
-    return args
-
-# def filter_links(file, query, output):
-#     """filters all links in file"""
-#     with open(output, "w") as output_file:
-#         with open(file) as input_file:
-#             for line in input_file.readlines():
-#                 if query in line:
-#                     output_file.write(line)
 
 
 def lazy_filter(input_file, query):
@@ -53,13 +32,30 @@ def lazy_filter(input_file, query):
             if query in line:
                 yield line
 
-def filter_links(file, query):
+def filter_from_file(file, query):
     with open(file) as f:
         link_gen = lazy_filter(f, query)
         return list(link_gen)
 
 
-# tests
+def filter_links(links, query, output_file=None):
+    """
+    Wrapper function to call as module.function
+    """
+    
+    if output_file is not None:
+        with open(output_file, "w") as output:
+            for link in links:
+                # if query in link:
+                if re.match(query, link) is not None:
+                    output.write(link)
+    else:
+        result = list()
+        for link in links:
+                if re.match(query, link) is not None:
+                    result.append(link)
+        return result
+                 
 
 def main():
     """
@@ -71,16 +67,18 @@ def main():
         save_args(args)
     # args = load_args()
 
-    # filter_links(args["input_file"], args["query"], args["output_file"])
-    
-    # links_filtered = filter_links("multum/mtm_links.txt", "mult")
+    if args["tests"]:
+        # tests
+        pass
+
+
     if args["output_file"] is not None:
         with open(args["output_file"], "w") as output:
-            for filtered_link in filter_links("multum/mtm_links.txt", "mult"):
+            for filtered_link in filter_from_file("multum/mtm_links.txt", "mult"):
                 output.write(filtered_link)
         return f"writen all links to {args['output_file']}"
     else:
-        print(*filter_links("multum/mtm_links.txt", "mult"))
+        print(*filter_from_file("multum/mtm_links.txt", "mult"))
 
         
 

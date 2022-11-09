@@ -1,0 +1,12 @@
+- class: ddc-pronounce-title
+  name: title
+  section: div
+- class: drug-subtitle
+  name: subtitle
+  section: p
+- class: more-resources-list more-resources-list-conditions
+  name: related_treatments
+  section: ul
+- class: ddc-inset-text
+  name: related_drugs
+  section: div
