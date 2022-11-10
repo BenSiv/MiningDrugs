@@ -51,7 +51,10 @@ def read_attributes(attr_file):
 def get_attributes(attr_list, soup_info):
     results = dict()
     for attr in attr_list:
-        info = soup_info.find(attr["section"], class_=attr["class"])
+        if attr["class"] is not None:
+            info = soup_info.find(attr["section"], class_=attr["class"])
+        else:
+            info = soup_info.find(attr["section"])
         if info is not None:
             results[attr["name"]] = info.text
     return results
