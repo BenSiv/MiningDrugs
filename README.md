@@ -10,8 +10,8 @@ For more information on the website go to: https://www.drugs.com/support/about.h
 ![Database schema](database/SchemaImage.png)
 
 ## Contributors:  
-Omri Abo [LinkedIn]("https://www.linkedin.com/in/omri-abo-563368184/")  
-Ben Sivan [LinkedIn]("https://www.linkedin.com/in/ben-sivan-3733bb105/")  
+Omri Abo [LinkedIn](https://www.linkedin.com/in/omri-abo-563368184/)  
+Ben Sivan [LinkedIn](https://www.linkedin.com/in/ben-sivan-3733bb105/)  
 
 
 Run ```python scrape_drugs.py``` to print drugs info to the screen
