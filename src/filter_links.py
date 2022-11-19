@@ -22,7 +22,7 @@ def get_args(argv=None):
 
 
 def lazy_filter(input_file, query):
-    """filters all links in file"""
+    """generator to filters links"""
     line = "true"
     while True:
         line = input_file.readline()
@@ -33,6 +33,7 @@ def lazy_filter(input_file, query):
                 yield line
 
 def filter_from_file(file, query):
+    """filters all links in file"""
     with open(file) as f:
         link_gen = lazy_filter(f, query)
         return list(link_gen)

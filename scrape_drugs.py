@@ -3,11 +3,17 @@ Scrapes all links from the website: https://www.drugs.com/
 """
 
 # import modules
+import sys
+sys.path.insert(0, "src/")
+
 from scrape_links import scrape_links
 from filter_links import filter_links
 from scrape_page import scrape_page
 
 def scrape_drugs(attributes, links_file, drugs_file=None, only_part2=False):
+    """
+    The main function to retrive info from https://www.drugs.com
+    """
     if only_part2:
         pass
     else:
@@ -49,6 +55,6 @@ def scrape_drugs(attributes, links_file, drugs_file=None, only_part2=False):
 
 if __name__ == "__main__":
     # print to screen
-    print(scrape_drugs("attributes.yaml", "multum/all_drug_links.txt", only_part2=True))#, "multum/all_drugs.jsonl")
+    print(scrape_drugs("configs/attributes.yaml", "multum/all_drug_links.txt", only_part2=True))#, "multum/all_drugs.jsonl")
     # save to file
     # scrape_drugs("attributes.yaml", "multum/all_drug_links.txt", "multum/all_drugs.jsonl", only_part2=True)

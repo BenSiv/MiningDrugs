@@ -43,12 +43,14 @@ def get_content(soup):
 
 
 def read_attributes(attr_file):
+    """reads attribute from a yaml file"""
     with open(attr_file) as f:
         data = yaml.load(f, Loader=yaml.FullLoader)
     return data
 
 
 def get_attributes(attr_list, soup_info):
+    """reads attribute content from soup object"""
     results = dict()
     for attr in attr_list:
         if attr["class"] is not None:
@@ -61,6 +63,7 @@ def get_attributes(attr_list, soup_info):
 
 
 def scrape_page(attr_file, url, output_file=None):
+    """retrive info from page based on attribute file"""
     soup = get_soup_object(url)
     info = get_content(soup)
     attr_list = read_attributes(attr_file)

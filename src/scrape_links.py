@@ -28,6 +28,7 @@ def get_urls(base_url,soup):
 
 
 def find_all(a_str, sub):
+    """generator to gind all occurences in string"""
     start = 0
     while True:
         start = a_str.find(sub, start)
@@ -37,6 +38,7 @@ def find_all(a_str, sub):
 
 
 def extract_base_url(url):
+    """extracts base url to build full path later"""
     up_to = list(find_all(url, "/"))[2] # third '/' in the url
     return url[:up_to]
 
