@@ -1,0 +1,5 @@
+website = "https://www.drugs.com/mtm/anastrozole.html"
+attributes = "attributes.yaml"
+output_file = "anastrozole_attributes.txt"
+interactive = true
+tests = false

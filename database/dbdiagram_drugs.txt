@@ -1,0 +1,46 @@
+
+// Creating tables
+
+Table drugs {
+  id int [pk, increment] // auto-increment
+  name varchar
+  scientific_name varchar
+}
+
+Table medical_conditions {
+  id int [pk, increment]
+  name varchar
+  description varchar
+}
+
+Table drug_medical_conditions {
+  id int [pk, increment]
+  medical_conditions_id int
+  drug_id int
+}
+
+Table side_effects {
+  id int [pk, increment]
+  name varchar
+  description varchar
+}
+
+Table drug_side_effects {
+  id int [pk, increment]
+  side_effect_id int
+  drug_id int
+}
+
+Table related_drugs {
+  id int [pk, increment]
+  drug_id int
+  related int
+}
+
+Ref: drugs.id > drug_medical_conditions.drug_id
+Ref: medical_conditions.id > drug_medical_conditions.medical_conditions_id
+Ref: drugs.id > drug_side_effects.drug_id
+Ref: side_effects.id > drug_side_effects.side_effect_id
+Ref: drugs.id > related_drugs.drug_id
+Ref: related_drugs.related > drugs.id
+

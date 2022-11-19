@@ -1,0 +1,29 @@
+# attribute finder for drug info
+
+## title
+- name: title
+  class: ddc-pronounce-title
+  section: div
+
+- name: title
+  class: 
+  section: h1
+
+## subtitle
+- name: subtitle
+  class: drug-subtitle
+  section: p
+
+## related treatments
+- name: related_treatments
+  class: more-resources-list more-resources-list-conditions
+  section: ul
+
+## related drugs
+- name: related_drugs
+  class: ddc-inset-text
+  section: div
+
+- name: related_drugs
+  class: sideBoxContent
+  section: p
