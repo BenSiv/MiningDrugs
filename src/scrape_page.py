@@ -7,7 +7,7 @@ import argparse
 import yaml
 import requests
 from bs4 import BeautifulSoup
-from cmd_args import save_args, load_args
+from src.cmd_args import save_args, load_args
 import json
 
 

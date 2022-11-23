@@ -5,11 +5,13 @@ Creating new database to store information from scraping https://www.drugs.com/ 
 -- Initilizing database
 CREATE DATABASE drugs;
 
+USE drugs;
+
 -- Initilizing tables
 CREATE TABLE drugs (
     id int NOT NULL,
     drug_name varchar(255),
-    scientific_name varchar(255),
+    generic_name varchar(255),
     PRIMARY KEY (id)
 );
 
