@@ -7,8 +7,7 @@ import argparse
 import yaml
 import requests
 from bs4 import BeautifulSoup
-from src.cmd_args import save_args, load_args
-import json
+from cmd_args import save_args, load_args
 
 
 # argparse function
@@ -62,18 +61,13 @@ def get_attributes(attr_list, soup_info):
     return results
 
 
-def scrape_page(attr_file, url, output_file=None):
+def scrape_page(attr_file, url):
     """retrive info from page based on attribute file"""
     soup = get_soup_object(url)
     info = get_content(soup)
     attr_list = read_attributes(attr_file)
     results = get_attributes(attr_list, info)
-    json_object = json.dumps(results, indent=4)
-    if output_file is not None:
-        with open(output_file, "a") as output:
-            output.write(json_object)
-    else:
-        return results
+    return results
 
 
 
@@ -92,7 +86,7 @@ def main():
         # tests
         pass
 
-    results = scrape_page(args["attributes"], args["website"], args["output_file"])
+    results = scrape_page(args["attributes"], args["website"])
     if results is not None:
         for key, value in results.items():
             print(f"{key} : {value}\n")
