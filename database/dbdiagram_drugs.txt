@@ -3,13 +3,13 @@
 
 Table drugs {
   id int [pk, increment] // auto-increment
-  name varchar
-  scientific_name varchar
+  drug_name varchar
+  generic_name varchar
 }
 
 Table medical_conditions {
   id int [pk, increment]
-  name varchar
+  medical_conditions_name varchar
   description varchar
 }
 
@@ -21,7 +21,7 @@ Table drug_medical_conditions {
 
 Table side_effects {
   id int [pk, increment]
-  name varchar
+  side_effects_name varchar
   description varchar
 }
 
