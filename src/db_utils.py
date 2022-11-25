@@ -43,7 +43,7 @@ def get_column_names(table, credentials):
         SELECT COLUMN_NAME
         FROM information_schema.COLUMNS
         WHERE TABLE_SCHEMA = 'drugs' 
-        AND TABLE_NAME = '{table}';
+        AND TABLE_NAME = "{table}";
     """
     column_names = [column["COLUMN_NAME"] for column in send_query(column_names_query, credentials)]
     return column_names
@@ -53,7 +53,7 @@ def increment_id(table, credentials):
         SELECT AUTO_INCREMENT
         FROM information_schema.TABLES
         WHERE TABLE_SCHEMA = 'drugs'
-        AND TABLE_NAME = '{table}';
+        AND TABLE_NAME = "{table}";
     """
     next_id = send_query(next_id_query, credentials)[0]["AUTO_INCREMENT"]
     return next_id
@@ -63,7 +63,7 @@ def get_id(table, obj, credentials):
     query = f"""
         SELECT id
         FROM {table}
-        WHERE {column_name}='{obj.name}'
+        WHERE {column_name}="{obj.name}"
     """
     name_id = send_query(query, credentials)[0]["id"]
     return name_id

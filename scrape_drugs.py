@@ -79,7 +79,7 @@ def build_query(table, obj, credentials):
     sql += f"""VALUES ({next_id}, """
     attr_count = 0
     while attr_count < len(attributes):
-        sql += f"'{getattr(obj,attributes[attr_count])}', "
+        sql += f""""{getattr(obj,attributes[attr_count])}", """
         attr_count += 1
     sql = sql[:-2] + ");"
     
@@ -87,10 +87,11 @@ def build_query(table, obj, credentials):
 
 def build_query_connective(table, obj1, obj2, credentials):
     """building insert query for mysql for connective table"""
+    class_to_table = {"MedicalCondition" : "medical_conditions", "SideEffect" :  "side_effects"}
     column_names = get_column_names(table, credentials)
     next_id = increment_id(table, credentials)
-    drug_id = get_id(table, obj1, credentials)
-    related_id = get_id(table, obj2, credentials)
+    drug_id = get_id("drugs", obj1, credentials)
+    related_id = get_id(class_to_table[type(obj2).__name__], obj2, credentials)
 
     sql = f"""INSERT INTO {table} ("""
     col_count = 0
