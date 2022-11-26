@@ -2,22 +2,23 @@
 defines class to sort drug attribute and pass to sql database
 """
 
+from dataclasses import dataclass
 import inspect
 
+@dataclass
 class Drug():
-    def __init__(self, name, generic_name):
-        self.name = name
-        self.generic_name = generic_name
+    name: str
+    generic_name: str
 
+@dataclass
 class SideEffect():
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
+    name: str
+    description: str
 
+@dataclass
 class MedicalCondition():
-    def __init__(self, name, description):
-        self.name = name
-        self.description = description
+    name: str
+    description: str
 
 def get_class_attributes(cls):
     return list(inspect.signature(cls).parameters)

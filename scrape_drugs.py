@@ -60,7 +60,12 @@ def pack_drug(drug_dict):
             for side_effect in drug_dict["side_effects"]:
                 if side_effect: # not empty string
                     side_effects.append(MedicalCondition(side_effect,""))
-    return some_drug, medical_conditions, side_effects
+        related_drugs = list()
+        if "related_drugs" in drug_dict:
+            for related_drug in drug_dict["related_drugs"]:
+                if related_drug: # not empty string
+                    related_drugs.append(Drug(related_drug,""))
+    return some_drug, medical_conditions, side_effects, related_drugs
 
 
 def build_query(table, obj, credentials):
@@ -104,9 +109,19 @@ def build_query_connective(table, obj1, obj2, credentials):
     sql += f"{drug_id}, {related_id});"
     return sql
 
+def exists_in_database(table, obj, credentials):
+    """checks if element has entry in database table"""
+    obj_id = get_id(table, obj, credentials)
+    if obj_id is not None:
+        return True
+    else:
+        return False
 
-def insert_to_database(drug, medical_conditions, side_effects, credentials):
+def insert_to_database(drug, medical_conditions, side_effects, related_drugs, credentials):
     """takes drug info classes and inserting it to the tables in the database"""
+    if exists_in_database("drugs", drug, credentials):
+        return # do nothing
+
     # drug table
     query = build_query("drugs", drug, credentials)
     logging.info(f"sending query: {query}")
@@ -137,6 +152,15 @@ def insert_to_database(drug, medical_conditions, side_effects, credentials):
         send_query(query, credentials)
     
     # related drugs
+    for rdrug in related_drugs:
+        if not exists_in_database("drugs", rdrug):
+            query = build_query("drugs", rdrug, credentials)
+            logging.info(f"sending query: {query}")
+            send_query(query, credentials)
+        query = build_query_connective("related_drugs", drug, rdrug, credentials)
+        logging.info(f"sending query: {query}")
+        send_query(query, credentials)
+    
 
 
 
@@ -150,8 +174,8 @@ def retrive_drug_info(links_file, attributes, credentials):
             else:
                 raw_attr = scrape_page(attributes, line)
                 attr = clean_attribute(raw_attr)
-                drug, medical_conditions, side_effects = pack_drug(attr)
-                insert_to_database(drug, medical_conditions, side_effects, credentials)
+                drug, medical_conditions, side_effects, related_drugs = pack_drug(attr)
+                insert_to_database(drug, medical_conditions, side_effects, related_drugs, credentials)
 
 
 def scrape_drugs(attributes, links_file, credentials_file, only_part2=False):

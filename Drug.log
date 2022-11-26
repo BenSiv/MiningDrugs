@@ -26,3 +26,4 @@ INFO : 2022-11-26 16:27:13,951 => sending query: INSERT INTO medical_conditions 
 INFO : 2022-11-26 16:27:13,957 => sending query: INSERT INTO drug_medical_conditions (id, drug_id, medical_condition_id) VALUES (6, 3, 6);
 INFO : 2022-11-26 16:27:13,969 => sending query: INSERT INTO drug_medical_conditions (id, drug_id, medical_condition_id) VALUES (7, 3, 7);
 INFO : 2022-11-26 16:27:13,978 => sending query: INSERT INTO drug_medical_conditions (id, drug_id, medical_condition_id) VALUES (8, 3, 8);
+DEBUG : 2022-11-26 18:34:28,995 => Starting new HTTPS connection (1): www.drugs.com:443
