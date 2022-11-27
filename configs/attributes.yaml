@@ -27,3 +27,8 @@
 - name: related_drugs
   class: sideBoxContent
   section: p
+
+## side effects
+- name: side_effects
+  class:
+  section:

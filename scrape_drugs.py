@@ -37,7 +37,8 @@ def clean_attribute(attr_dict):
         "title" : lambda a: a,
         "subtitle" : lambda a: re.sub(r'\[.+?\]', '',find_between(a, "\nGeneric name: ", "\n")).strip(),
         "related_treatments" : lambda a: a.split("\n"),
-        "related_drugs" : lambda a: find_between(a, "\nRelated/similar drugs\n", "\n").split(",")
+        "side_effects" : lambda a: a,
+        "related_drugs" : lambda a: find_between(a, "\nRelated/similar drugs\n", "\n").split(", ")
     }
     for key, value in attr_dict.items():
         attr_dict[key] = cleaner_dict[key](value)
@@ -92,7 +93,7 @@ def build_query(table, obj, credentials):
 
 def build_query_connective(table, obj1, obj2, credentials):
     """building insert query for mysql for connective table"""
-    class_to_table = {"MedicalCondition" : "medical_conditions", "SideEffect" :  "side_effects"}
+    class_to_table = {"Drug" : "drugs", "MedicalCondition" : "medical_conditions", "SideEffect" :  "side_effects"}
     column_names = get_column_names(table, credentials)
     next_id = increment_id(table, credentials)
     drug_id = get_id("drugs", obj1, credentials)
@@ -153,7 +154,7 @@ def insert_to_database(drug, medical_conditions, side_effects, related_drugs, cr
     
     # related drugs
     for rdrug in related_drugs:
-        if not exists_in_database("drugs", rdrug):
+        if not exists_in_database("drugs", rdrug, credentials):
             query = build_query("drugs", rdrug, credentials)
             logging.info(f"sending query: {query}")
             send_query(query, credentials)

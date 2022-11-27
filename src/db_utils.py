@@ -65,8 +65,9 @@ def get_id(table, obj, credentials):
         FROM {table}
         WHERE {column_name}="{obj.name}"
     """
-    name_id = send_query(query, credentials)[0]["id"]
-    return name_id
+    name_id = send_query(query, credentials)
+    if len(name_id) > 0:
+        return name_id[0]["id"]
 
 def main(credentials_file):
     """checks the connaction"""
