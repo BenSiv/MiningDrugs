@@ -55,7 +55,10 @@ def get_attributes(attr_list, soup_info):
         if attr["class"] is not None:
             info = soup_info.find(attr["section"], class_=attr["class"])
         else:
-            info = soup_info.find(attr["section"])
+            if attr["name"] == "side_effects":
+                info = soup_info
+            else:
+                info = soup_info.find(attr["section"])
         if info is not None:
             results[attr["name"]] = info.text
     return results
@@ -68,8 +71,6 @@ def scrape_page(attr_file, url):
     attr_list = read_attributes(attr_file)
     results = get_attributes(attr_list, info)
     return results
-
-
 
 
 def main():

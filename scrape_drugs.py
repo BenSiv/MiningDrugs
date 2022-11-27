@@ -37,13 +37,12 @@ def clean_attribute(attr_dict):
         "title" : lambda a: a,
         "subtitle" : lambda a: re.sub(r'\[.+?\]', '',find_between(a, "\nGeneric name: ", "\n")).strip(),
         "related_treatments" : lambda a: a.split("\n"),
-        "side_effects" : lambda a: a,
+        "side_effects" : lambda a: find_between(a, "Common side effects of", "This is not a complete list of side effects").split("\n\n\n")[1:-1],
         "related_drugs" : lambda a: find_between(a, "\nRelated/similar drugs\n", "\n").split(", ")
     }
     for key, value in attr_dict.items():
         attr_dict[key] = cleaner_dict[key](value)
     return attr_dict
-
 
 def pack_drug(drug_dict):
     """takes clean drug attribute data and inserting it to drug info classes"""
@@ -60,7 +59,7 @@ def pack_drug(drug_dict):
         if "side_effects" in drug_dict:
             for side_effect in drug_dict["side_effects"]:
                 if side_effect: # not empty string
-                    side_effects.append(MedicalCondition(side_effect,""))
+                    side_effects.append(SideEffect(side_effect,""))
         related_drugs = list()
         if "related_drugs" in drug_dict:
             for related_drug in drug_dict["related_drugs"]:

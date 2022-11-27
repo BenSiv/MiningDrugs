@@ -9,19 +9,19 @@ Table drugs {
 
 Table medical_conditions {
   id int [pk, increment]
-  medical_conditions_name varchar
+  medical_condition_name varchar
   description varchar
 }
 
 Table drug_medical_conditions {
   id int [pk, increment]
-  medical_conditions_id int
+  medical_condition_id int
   drug_id int
 }
 
 Table side_effects {
   id int [pk, increment]
-  side_effects_name varchar
+  side_effect_name varchar
   description varchar
 }
 
@@ -38,7 +38,7 @@ Table related_drugs {
 }
 
 Ref: drugs.id > drug_medical_conditions.drug_id
-Ref: medical_conditions.id > drug_medical_conditions.medical_conditions_id
+Ref: medical_conditions.id > drug_medical_conditions.medical_condition_id
 Ref: drugs.id > drug_side_effects.drug_id
 Ref: side_effects.id > drug_side_effects.side_effect_id
 Ref: drugs.id > related_drugs.drug_id

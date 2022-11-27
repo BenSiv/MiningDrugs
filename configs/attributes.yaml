@@ -28,7 +28,7 @@
   class: sideBoxContent
   section: p
 
-## side effects
+# side effects
 - name: side_effects
   class:
-  section:
+  section: 
