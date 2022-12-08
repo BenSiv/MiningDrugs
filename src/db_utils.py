@@ -22,13 +22,11 @@ def connect(credentials):
     )
     return connection
 
-def send_query(query, credentials):
+def send_query(query, connection):
     """sends a query to database and returns results"""
-    connection = connect(credentials)
-    with connection:
-        with connection.cursor() as cursor:
-            cursor.execute(query)
-            return cursor.fetchall()
+    with connection.cursor() as cursor:
+        cursor.execute(query)
+        return cursor.fetchall()
 
 def my_pretty_print(list_of_dictionaries):
     """pretty print a dictionary from sql query result"""
@@ -38,34 +36,34 @@ def my_pretty_print(list_of_dictionaries):
         list_of_values_string = map(str,list_of_values)
         print("\t".join(list_of_values_string))
 
-def get_column_names(table, credentials):
+def get_column_names(table, connection):
     column_names_query = f"""
         SELECT COLUMN_NAME
         FROM information_schema.COLUMNS
         WHERE TABLE_SCHEMA = 'drugs' 
         AND TABLE_NAME = "{table}";
     """
-    column_names = [column["COLUMN_NAME"] for column in send_query(column_names_query, credentials)]
+    column_names = [column["COLUMN_NAME"] for column in send_query(column_names_query, connection)]
     return column_names
 
-def increment_id(table, credentials):
+def increment_id(table, connection):
     next_id_query = f"""
         SELECT AUTO_INCREMENT
         FROM information_schema.TABLES
         WHERE TABLE_SCHEMA = 'drugs'
         AND TABLE_NAME = "{table}";
     """
-    next_id = send_query(next_id_query, credentials)[0]["AUTO_INCREMENT"]
+    next_id = send_query(next_id_query, connection)[0]["AUTO_INCREMENT"]
     return next_id
 
-def get_id(table, obj, credentials):
+def get_id(table, obj, connection):
     column_name = table[:-1] + "_name"
     query = f"""
         SELECT id
         FROM {table}
         WHERE {column_name}="{obj.name}"
     """
-    name_id = send_query(query, credentials)
+    name_id = send_query(query, connection)
     if len(name_id) > 0:
         return name_id[0]["id"]
 
@@ -77,7 +75,8 @@ def main(credentials_file):
     sql = """
         SHOW TABLES;
     """
-    result = send_query(sql, credentials)
+    connection = connect(credentials)
+    result = send_query(sql, connection)
     my_pretty_print(result)
 
 if __name__ == "__main__":

@@ -27,7 +27,7 @@ CREATE TABLE related_drugs (
 CREATE TABLE side_effects (
     id int NOT NULL AUTO_INCREMENT,
     side_effect_name varchar(255),
-    description varchar(255),
+    description text,
     PRIMARY KEY (id)
 );
 
@@ -43,7 +43,7 @@ CREATE TABLE drug_side_effects (
 CREATE TABLE medical_conditions (
     id int NOT NULL AUTO_INCREMENT,
     medical_condition_name varchar(255),
-    description varchar(255),
+    description text,
     PRIMARY KEY (id)
 );
 
